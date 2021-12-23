@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  terraria:
+    build: .
+    container_name: terraria-tmodloader
+    restart: unless-stopped
+    environment:
+      - WORLD=The_Glamorous_Niche.wld
+      - PORT=7778
+      - PASSWORD=pizza
+      - MOTD="Welcome to NeoAcid"
+    ports:
+      - '7778:7778'
+    volumes:
+      - ./config:/config
+    tty: true
+    stdin_open: true
+volumes:
+  config:
+    name: terraria-tmodloader_data
