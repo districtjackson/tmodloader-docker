@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-CMD="./tModLoaderServer -x64 -config /config/serverconfig.txt -banlist /config/banlist.txt"
+CMD="./tModLoaderServer -x64 -config /config/serverconfig.txt"
 
 # Create default config files if they don't exist
 if [ ! -f "/config/serverconfig.txt" ]; then
@@ -14,13 +14,10 @@ fi
 
 # Configure new paths
 mkdir -p /config/mods
-sed -i -e "/worldpath=/s/=.*/=\/config\//" -e '/worldpath=/s/#//' /config/serverconfig.txt
+# commented out for now since these should already be set
+# sed -i -e "/worldpath=/s/=.*/=\/config\//" -e '/worldpath=/s/#//' /config/serverconfig.txt
+# sed -i -e "/modpath=/s/=.*/=\/config\/mods/" -e '/modpath=/s/#//' /config/serverconfig.txt
 
-if grep "modpath=" /config/serverconfig.txt; then
-    sed -i -e "/modpath=/s/=.*/=\/config\/mods/" -e '/modpath=/s/#//' /config/serverconfig.txt
-else
-    echo "modpath=/config/mods/" >> /config/serverconfig.txt
-fi
 
 # Pass in world if set
 if [ "${WORLD:-null}" != null ]; then
@@ -40,6 +37,11 @@ fi
 # Pass in server motd if set
 if [ "${MOTD:-null}" != null ]; then
     sed -i -e "/motd=/s/=.*/=${PASSWORD}/" -e '/motd=/s/#//' /config/serverconfig.txt
+fi
+
+# Set server port
+if [ "${PORT:-null}" != null ]; then
+    sed -i -e "/port=/s/=.*/=${PORT}/" -e '/port=/s/#//' /config/serverconfig.txt
 fi
 
 # Server backups

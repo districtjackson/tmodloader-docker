@@ -1,33 +1,24 @@
 FROM mono:slim
 
 # Update and install needed utils
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y curl nuget vim zip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y curl nuget && \
+    apt clean
 
-# fix for favorites.json error
-RUN favorites_path="/root/My Games/Terraria" && mkdir -p "$favorites_path" && echo "{}" > "$favorites_path/favorites.json"
-
-# Download and install Vanilla Server
-ENV GAME_VERSION=1353
+# Download and install tModLoader
 ENV TMODLOADER_VERSION="0.11.8.5"
 
 RUN mkdir /tmp/terraria && \
     cd /tmp/terraria && \
-    curl -sL https://www.terraria.org/api/download/pc-dedicated-server/terraria-server-${GAME_VERSION}.zip --output terraria-server.zip && \
     curl -sL https://github.com/tModLoader/tModLoader/releases/download/v${TMODLOADER_VERSION}/tModLoader.Linux.v${TMODLOADER_VERSION}.tar.gz --output tmodloader.tar.gz && \
-    unzip -q terraria-server.zip && \
-    tar xf tmodloader.tar.gz && \
-    mv */Linux /vanilla && \
-    mv */Windows/serverconfig.txt /vanilla/serverconfig-default.txt && \
-    rm -R /tmp/* && \
-    chmod +x /vanilla/TerrariaServer* && \
-    if [ ! -f /vanilla/TerrariaServer ]; then echo "Missing /vanilla/TerrariaServer"; exit 1; fi
+    mkdir tModLoader && \
+    tar xf tmodloader.tar.gz --directory tModLoader && \
+    mv tModLoader /server && \
+    rm -rf /tmp/terraria
     
-
-COPY run.sh /vanilla/run.sh
+COPY serverconfig-default.txt /server/serverconfig-default.txt
+COPY run.sh /server/run.sh
 
 # Commit Hash Metadata
 ARG VCS_REF
@@ -38,5 +29,5 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
 VOLUME ["/config"]
 
 # Run the server
-WORKDIR /vanilla
+WORKDIR /server
 ENTRYPOINT ["./run.sh"]
