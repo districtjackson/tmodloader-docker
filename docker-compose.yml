@@ -7,14 +7,12 @@ services:
     restart: unless-stopped
     environment:
       - WORLD=World.wld
-      - PORT=7778
-      - PASSWORD=pizza
-      - MOTD="Welcome to NeoAcid"
+      - PORT=7777
       - TMODLOADER_VERSION="0.11.8.5"
     ports:
-      - '7778:7778'
+      - '7777:7777'
     volumes:
-      - ./config:/config
+      - config:/config
     tty: true
     stdin_open: true
 volumes:
