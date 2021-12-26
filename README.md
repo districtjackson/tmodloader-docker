@@ -53,7 +53,7 @@ services:
 | MOTD | Message of the Day | "Welcome to tModLoader" |
 | PORT | Server port | 7777 |
 | BACKUPS | Number of backups to keep | 5 |
-| TMODLOADER_VERSION | tModLoader version string | "0.11.8.5" |
+| TMODLOADER_VERSION | tModLoader version string (build only) | "0.11.8.5" |
 
 #### Running
 
