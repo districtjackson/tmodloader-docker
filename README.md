@@ -9,7 +9,7 @@ Docker images to run a Terraria Server with tModLoader
 #### Build
 
 ```
-docker build -t terraria-tmodloader https://github.com/mrivnak/tmodloader-docker.git
+docker build -t terraria-tmodloader https://github.com/districtjackson/tmodloader-docker.git
 ```
 
 #### Run
@@ -32,7 +32,7 @@ version: '3'
 
 services:
   terraria:
-    build: https://github.com/mrivnak/tmodloader-docker.git
+    build: https://github.com/districtjackson/tmodloader-docker.git
     ports:
       - '7777:7777'
     restart: unless-stopped
