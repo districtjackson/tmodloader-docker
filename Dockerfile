@@ -7,7 +7,7 @@ RUN apt update && \
     apt clean
 
 # Download and install tModLoader
-ENV TMODLOADER_VERSION="0.11.8.5"
+ENV TMODLOADER_VERSION="0.11.8.9"
 
 RUN mkdir /tmp/terraria && \
     cd /tmp/terraria && \
